@@ -28,7 +28,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     radial-gradient(ellipse 60% 40% at 10% 5%, rgba(175,169,236,0.18) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 95% 10%, rgba(237,147,177,0.12) 0%, transparent 55%),
     radial-gradient(ellipse 40% 35% at 85% 95%, rgba(127,119,221,0.10) 0%, transparent 55%);}
-.container{max-width:820px;margin:0 auto;padding:0 18px;position:relative;z-index:1;}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+.hero{max-width:820px;margin:0 auto;}
 
 /* HERO */
 .hero{text-align:center;padding:34px 20px 18px;}
@@ -424,6 +425,56 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .crange{padding:6px 11px;font-size:10px;}
 }
 
+
+/* ===== LEFT SIDE MENU ===== */
+.shell{display:flex;gap:22px;align-items:flex-start;}
+.sidenav{position:sticky;top:18px;flex:0 0 196px;background:var(--surf);border:1px solid var(--p200);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 10px;display:flex;flex-direction:column;gap:3px;}
+.nav-group{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--muted);padding:9px 12px 5px;}
+.nav-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:none;background:none;
+  padding:10px 13px;border-radius:100px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:12px;
+  font-weight:800;color:var(--ink2);transition:all .15s;}
+.nav-item:hover{background:var(--p50);}
+.nav-item.active{background:linear-gradient(135deg,var(--p600) 0%,var(--pk400) 100%);color:#fff;box-shadow:var(--shadow);}
+.nav-emoji{font-size:14px;line-height:1;}
+.nav-count{margin-left:auto;background:var(--p50);color:var(--p600);border-radius:100px;padding:2px 8px;
+  font-size:10px;font-weight:800;font-family:'Montserrat',sans-serif;}
+.nav-item.active .nav-count{background:rgba(255,255,255,0.26);color:#fff;}
+.nav-subs{display:flex;flex-direction:column;gap:1px;margin:1px 0 4px;}
+.nav-sub{width:100%;text-align:left;border:none;background:none;padding:7px 13px 7px 34px;border-radius:100px;
+  cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--muted);transition:all .15s;}
+.nav-sub:hover{background:var(--p50);color:var(--p600);}
+.main{flex:1;min-width:0;}
+.section{display:none;}
+.section.active{display:block;}
+@media(max-width:900px){
+  .shell{flex-direction:column;gap:14px;}
+  .sidenav{position:sticky;top:0;z-index:60;flex:none;width:100%;flex-direction:row;align-items:center;
+    gap:6px;padding:8px;border-radius:100px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .nav-group{display:none;}
+  .nav-subs{flex-direction:row;gap:6px;margin:0;}
+  .nav-sub{width:auto;white-space:nowrap;padding:8px 13px;font-size:10.5px;background:var(--surf2);}
+  .nav-item{width:auto;white-space:nowrap;padding:9px 15px;font-size:11.5px;}
+}
+
+/* wider layout: give the trackers room to breathe */
+.sidenav{flex:0 0 212px;}
+.metric-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;}
+.skool-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.chart-modal{max-width:760px;}
+@media(max-width:1100px){
+  .metric-grid{grid-template-columns:repeat(auto-fill,minmax(165px,1fr));}
+  .skool-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}
+}
+@media(max-width:900px){
+  .container{padding:0 16px;}
+}
+@media(max-width:520px){
+  .container{padding:0 14px;}
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .skool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+}
 </style>
 </head>
 <body>
@@ -450,6 +501,22 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     Download your data now and then so you always have a backup. 💜
   </div>
 
+  <div class="shell">
+
+    <nav class="sidenav">
+      <div class="nav-group">Numbers</div>
+      <button class="nav-item" data-sec="trackers" onclick="showSection('trackers')"><span class="nav-emoji">📊</span> Trackers</button>
+      <div class="nav-subs" id="navSubs">
+        <button class="nav-sub" onclick="jumpTo('metricsToggle')">Growth Trackers</button>
+        <button class="nav-sub" onclick="jumpTo('skoolToggle')">Skool Tracker</button>
+      </div>
+      <div class="nav-group">Your day</div>
+      <button class="nav-item" data-sec="progress" onclick="showSection('progress')"><span class="nav-emoji">🌞</span> Progress <span class="nav-count" id="navOpen">0</span></button>
+    </nav>
+
+    <div class="main">
+
+      <div class="section" id="section-trackers">
   <!-- GROWTH TRACKERS (collapsible) -->
   <div class="metrics-head metrics-toggle open" id="metricsToggle" onclick="toggleMetrics()">📊 Growth Trackers <span class="metrics-caret" id="metricsCaret">▶</span></div>
   <div class="stats-hint" id="metricsHint">Tap ⚙️ to rename a tracker or change the goal. Tap 📈 to see your progress by week, month or year.</div>
@@ -459,7 +526,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="metrics-head metrics-toggle skool-head open" id="skoolToggle" onclick="toggleSkool()">🏛️ Skool Tracker <span class="metrics-caret" id="skoolCaret">▶</span></div>
   <div class="stats-hint" id="skoolHint">Your community numbers. Log them as often as you like, every entry is kept.</div>
   <div class="skool-grid" id="skoolGrid"></div>
+      </div>
 
+      <div class="section" id="section-progress">
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-top">
       <span class="progress-title" id="progLabel">🌞 Today’s Progress</span>
@@ -512,6 +581,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="reset-row" id="resetRow">
     <label class="hide-done-toggle"><input type="checkbox" id="hideDoneChk" onchange="toggleHideDone()"> Hide done</label>
     <button class="reset-btn" id="clearDoneBtn" onclick="clearDone()">🧹 Clear done on this tab</button>
+  </div>
+      </div>
+
+    </div>
   </div>
 
   <div class="quote-banner">
@@ -1041,7 +1114,7 @@ function updateStats(){
   document.getElementById('statDone').textContent=done;document.getElementById('statLeft').textContent=total-done;
   document.getElementById('statHigh').textContent=tasks.filter(t=>t.prio==='high'&&!t.done).length;
   const today=todayStr();document.getElementById('statDue').textContent=tasks.filter(t=>t.due&&t.due<=today&&!t.done).length;
-  document.getElementById('cntDaily').textContent=state.daily.filter(t=>!t.done).length;
+  document.getElementById('cntDaily').textContent=state.daily.filter(t=>!t.done).length;refreshNavCount();
   document.getElementById('cntWeekly').textContent=state.weekly.filter(t=>!t.done).length;
   document.getElementById('cntMonthly').textContent=state.monthly.filter(t=>!t.done).length;
 }
@@ -1451,6 +1524,30 @@ function celebrate(opts){
   if(opts.toast)toast(opts.toast);
 }
 
+
+/* LEFT MENU — trackers on one screen, your day on the other, so nothing needs scrolling past */
+function showSection(name){
+  if(name!=='trackers'&&name!=='progress')name='progress';
+  state.section=name;
+  try{save();}catch(e){}
+  document.querySelectorAll('.section').forEach(function(s){s.classList.toggle('active',s.id==='section-'+name);});
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.sec===name);});
+  const subs=document.getElementById('navSubs');
+  if(subs)subs.style.display=(name==='trackers')?'':'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function jumpTo(id){
+  showSection('trackers');
+  setTimeout(function(){
+    const el=document.getElementById(id);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  },60);
+}
+function refreshNavCount(){
+  const el=document.getElementById('navOpen');
+  if(el)el.textContent=(state.daily||[]).filter(function(t){return !t.done;}).length;
+}
+
 function fmt(n){return Number(n).toLocaleString('en-US');}
 
 /* Helpers to check "all done" states */
@@ -1466,6 +1563,8 @@ if(!state.welcome)document.getElementById('welcomeNote').style.display='none';
 renderOwner();
 renderAllStats();
 renderTasks();
+showSection(state.section||'progress');
+refreshNavCount();
 refreshBackupHint();
 </script>
 </body>
