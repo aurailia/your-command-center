@@ -641,10 +641,10 @@ const SEED_SKOOL=[
 ];
 
 const GOAL_TIERS=[
-  {key:'year',name:'1-Year Vision',sub:'Where this is all going',icon:'\ud83c\udf1f',cls:'gt-year'},
-  {key:'six',name:'6-Month Goals',sub:'The bigger build',icon:'\ud83d\udd2d',cls:'gt-6'},
+  {key:'month',name:"This Month's Goals",sub:'What you\u2019re working on right now',icon:'\ud83c\udf19',cls:'gt-month'},
   {key:'three',name:'3-Month Goals',sub:'This quarter',icon:'\ud83c\udfaf',cls:'gt-3'},
-  {key:'month',name:"This Month's Goals",sub:'Break these into your weekly + daily',icon:'\ud83c\udf19',cls:'gt-month'}
+  {key:'six',name:'6-Month Goals',sub:'The bigger build',icon:'\ud83d\udd2d',cls:'gt-6'},
+  {key:'year',name:'1-Year Vision',sub:'Where this is all going',icon:'\ud83c\udf1f',cls:'gt-year'}
 ];
 const SEED_GOALS={year:[],six:[],three:[],month:[]};
 
@@ -1002,15 +1002,16 @@ const CATS=[
   {key:'general',name:'General',sub:'Everything else',icon:'📋',cls:'icon-list'}
 ];
 function catName(k){const c=CATS.find(x=>x.key===k);return c?c.name:'General';}
+/* The list you're looking at is the list it goes on. A due date is just a date,
+   it never decides which tab a task lives on. Use the ↔ button to move one. */
 function addTask(){
   const input=document.getElementById('taskInput');const text=input.value.trim();if(!text)return;
   const cat=document.getElementById('catInput').value;
   const due=document.getElementById('dueInput').value||'';
-  const dest=tabForDate(due);
+  const dest=currentTab;
   const task={id:'t'+Date.now(),text,cat,must:cat==='must',prio:document.getElementById('prioInput').value,note:'',due,done:false,recurring:false};
   state[dest]=state[dest]||[];state[dest].push(task);
   input.value='';document.getElementById('dueInput').value='';save();renderTasks();
-  if(dest!==currentTab){const label={daily:'Daily',weekly:'Weekly',monthly:'Monthly'}[dest];toast('Added to '+label);}
 }
 function toggleDone(id){const t=find(id);if(!t)return;
   const wasMustComplete=mustAllDone(currentTab);
@@ -1023,36 +1024,20 @@ function toggleDone(id){const t=find(id);if(!t)return;
 }
 function cyclePrio(id){const t=find(id);if(!t)return;const order={high:'med',med:'low',low:'high'};t.prio=order[t.prio];save();renderTasks();}
 function openDue(id){const el=document.getElementById('due-'+id);if(!el)return;if(el.showPicker){try{el.showPicker();return;}catch(e){}}el.focus();el.click();}
-/* Decide which tab a task belongs on, based on its due date.
-   today (or no date) → daily; rest of this week → weekly; beyond → monthly.
-   Week ends on the coming Sunday. */
-function endOfWeek(){
-  const d=new Date(todayStr()+'T00:00:00');
-  const dow=d.getDay();              // 0=Sun..6=Sat
-  const add=(7-dow)%7;               // days until Sunday (0 if today is Sunday)
-  d.setDate(d.getDate()+add);
-  return d.toISOString().slice(0,10);
-}
-function tabForDate(due){
-  if(!due)return 'daily';
-  const today=todayStr();
-  if(due<=today)return 'daily';      // today or overdue stays in daily
-  return due<=endOfWeek()?'weekly':'monthly';
-}
 function setDue(id,val){
   const t=find(id);if(!t)return;
   t.due=val||'';
-  const dest=tabForDate(t.due);
-  if(dest!==currentTab){
-    // move the task to the tab its date belongs on
-    state[currentTab]=state[currentTab].filter(x=>x.id!==id);
-    state[dest]=state[dest]||[];state[dest].push(t);
-    save();renderTasks();
-    const label={daily:'Daily',weekly:'Weekly',monthly:'Monthly'}[dest];
-    toast('→ Moved to '+label);
-  }else{
-    save();renderTasks();
-  }
+  save();renderTasks();
+}
+/* Move a task between Daily, Weekly and Monthly yourself. Cycles round. */
+function moveTask(id){
+  const t=find(id);if(!t)return;
+  const order={daily:'weekly',weekly:'monthly',monthly:'daily'};
+  const dest=order[currentTab];
+  state[currentTab]=state[currentTab].filter(x=>x.id!==id);
+  state[dest]=state[dest]||[];state[dest].push(t);
+  save();renderTasks();
+  toast('→ Moved to '+{daily:'Daily',weekly:'Weekly',monthly:'Monthly'}[dest]);
 }
 function deleteTask(id){state[currentTab]=state[currentTab].filter(t=>t.id!==id);save();renderTasks();}
 function find(id){return state[currentTab].find(t=>t.id===id);}
@@ -1081,7 +1066,7 @@ function buildTaskEl(t){
         ${t.note?'<span class="chip" style="background:var(--surf2);color:var(--muted);">📝 Note</span>':''}</div>
       ${t.note?`<div class="task-note show">${esc(t.note)}</div>`:''}
       <textarea class="note-edit" data-id="${t.id}" rows="2" placeholder="Add a note..."></textarea></div>
-    <div class="task-actions"><button class="act-btn" title="Move to another list (Must Do / Skool / General)" onclick="cycleCat('${t.id}')">${catIcon}</button><button class="act-btn ${t.recurring?'recur-on':''}" title="${t.recurring?'Recurring: comes back when you clear done':'Make recurring (stays when you clear done)'}" onclick="toggleRecurring('${t.id}')">🔁</button><button class="act-btn" title="Edit note" onclick="toggleNote('${t.id}')">📝</button><button class="act-btn" title="Delete" onclick="deleteTask('${t.id}')">🗑️</button></div>`;
+    <div class="task-actions"><button class="act-btn" title="Move to another list (Must Do / Content / General)" onclick="cycleCat('${t.id}')">${catIcon}</button><button class="act-btn" title="Move to Daily / Weekly / Monthly" onclick="moveTask('${t.id}')">↔</button><button class="act-btn ${t.recurring?'recur-on':''}" title="${t.recurring?'Recurring: comes back when you clear done':'Make recurring (stays when you clear done)'}" onclick="toggleRecurring('${t.id}')">🔁</button><button class="act-btn" title="Edit note" onclick="toggleNote('${t.id}')">📝</button><button class="act-btn" title="Delete" onclick="deleteTask('${t.id}')">🗑️</button></div>`;
   return el;
 }
 function toggleRecurring(id){const t=find(id);if(!t)return;t.recurring=!t.recurring;save();renderTasks();toast(t.recurring?'🔁 Recurring on':'Recurring off');}
@@ -1135,7 +1120,7 @@ function toggleHideDone(){
 /* GOALS — now with inline text editing */
 function renderGoals(){
   const view=document.getElementById('view-goals');
-  let html='<div class="horizon-intro">Your vision, cascading down. Set the big picture up top, then break <strong>this month</strong> into your weekly and daily tabs. Tap any goal to edit it. 💜</div>';
+  let html='<div class="horizon-intro">Start with <strong>this month</strong> and break it into your weekly and daily tabs. The bigger horizons sit underneath when you want to zoom out. Tap any goal to edit it. 💜</div>';
   GOAL_TIERS.forEach(tier=>{
     const goals=state.goals[tier.key]||[];
     html+=`<div class="goal-section"><div class="goal-section-head"><div class="goal-tier-icon ${tier.cls}">${tier.icon}</div><div><div class="goal-tier-name">${tier.name}</div><div class="goal-tier-sub">${tier.sub}</div></div></div><ul class="goal-list">`;
