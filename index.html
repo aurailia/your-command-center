@@ -490,136 +490,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .skool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 }
 
-/* CLIENTS / PIPELINE */
-.client-jump{background:var(--surf);border:1px solid var(--p200);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.client-jump label{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;color:var(--pk400);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
-.client-jump select{flex:1;min-width:160px;border:1px solid var(--p200);border-radius:100px;padding:9px 14px;font-family:'Lato',sans-serif;font-size:13.5px;color:var(--ink);background:var(--surf2);outline:none;cursor:pointer;}
-.client-jump select:focus{border-color:var(--p400);}
-.client-chip.working{background:#E8F4FD;color:#2B6CB0;border:none;}
-.client-chip.steps{background:var(--p50);color:var(--p600);border:none;}
-.client-chip.term{border:none;}
-.client-chip.term.ok{background:var(--green-bg);color:var(--green);}
-.client-chip.term.soon{background:var(--med-bg);color:var(--med);}
-.client-chip.term.over{background:var(--hi-bg);color:var(--hi);}
-.cb-date{border:1px solid var(--p200);border-radius:100px;padding:6px 11px;font-family:'Lato',sans-serif;font-size:12px;color:var(--ink2);background:var(--surf2);outline:none;cursor:pointer;}
-.term-readout{font-size:12px;font-family:'Montserrat',sans-serif;font-weight:700;border-radius:8px;padding:8px 11px;margin-top:4px;}
-.term-readout.ok{background:var(--green-bg);color:var(--green);}
-.term-readout.soon{background:var(--med-bg);color:var(--med);}
-.term-readout.over{background:var(--hi-bg);color:var(--hi);}
-.term-hint{font-size:11.5px;color:var(--muted);font-style:italic;margin-top:4px;}
-.step-list{list-style:none;margin-top:2px;}
-.step{display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-bottom:1px solid var(--p50);}
-.step:last-child{border-bottom:none;}
-.step-check{width:19px;height:19px;border-radius:6px;border:2px solid var(--p200);background:var(--surf);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
-.step-check.done{background:linear-gradient(135deg,var(--green),#5ad696);border-color:var(--green);}
-.step-check.done::after{content:'✓';color:#fff;font-size:11px;font-weight:900;}
-.step-txt{flex:1;font-size:13px;color:var(--ink);line-height:1.4;word-break:break-word;}
-.step-txt.done{text-decoration:line-through;color:var(--muted);}
-.step-reload{margin-top:9px;background:none;border:1px solid var(--p200);border-radius:100px;padding:6px 13px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;}
-.step-reload:hover{border-color:var(--pk200);color:var(--pk400);}
-.clients-intro{font-size:13.5px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:16px;line-height:1.6;}
-.client-addbar{background:var(--surf);border:1px solid var(--p200);border-radius:var(--radius);padding:14px;margin-bottom:18px;box-shadow:var(--shadow);}
-.client-addbar-row{display:flex;gap:8px;margin-bottom:10px;}
-.client-addbar input[type=text]{flex:1;border:1px solid var(--p200);border-radius:var(--radius-sm);padding:11px 14px;font-family:'Lato',sans-serif;font-size:14px;color:var(--ink);background:var(--surf2);outline:none;}
-.client-addbar input[type=text]:focus{border-color:var(--p400);}
-.client-addbar-opts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-.client-addbar-opts select{border:1px solid var(--p200);border-radius:100px;padding:7px 12px;font-family:'Lato',sans-serif;font-size:12.5px;color:var(--ink2);background:var(--surf2);outline:none;cursor:pointer;}
-.client-addbar-opts label{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
-
-.pipe-stage{margin-bottom:18px;}
-.pipe-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:0 4px;}
-.pipe-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
-.pipe-dot.s-potential{background:var(--med);} .pipe-dot.s-booked{background:var(--p400);}
-.pipe-dot.s-active{background:var(--pk400);} .pipe-dot.s-complete{background:var(--green);}
-.pipe-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink);letter-spacing:.3px;}
-.pipe-count{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:var(--muted);background:var(--p50);border-radius:100px;padding:1px 9px;}
-.pipe-line{flex:1;height:1px;background:var(--p50);}
-
-.client-card{background:var(--surf);border:1px solid var(--p200);border-radius:var(--radius-sm);margin-bottom:10px;box-shadow:0 2px 10px rgba(127,119,221,0.05);border-left-width:4px;overflow:hidden;transition:box-shadow .15s;}
-.client-card.s-potential{border-left-color:var(--med);} .client-card.s-booked{border-left-color:var(--p400);}
-.client-card.s-active{border-left-color:var(--pk400);} .client-card.s-complete{border-left-color:var(--green);}
-.client-card:hover{box-shadow:var(--shadow);}
-.client-top{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;cursor:pointer;}
-.client-info{flex:1;min-width:0;}
-.client-name{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--ink);line-height:1.3;word-break:break-word;}
-.client-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:7px;}
-.client-chip{display:inline-flex;align-items:center;gap:4px;border-radius:100px;padding:2px 9px;font-family:'Montserrat',sans-serif;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;background:var(--surf2);color:var(--ink2);border:1px solid var(--p200);}
-.client-chip.offer{background:var(--p50);color:var(--p600);border-color:var(--p200);}
-.client-chip.next{background:var(--pk50);color:var(--pk400);border-color:var(--pk200);}
-.client-chip.todos{background:var(--med-bg);color:var(--med);border:none;}
-.client-chip.todos.zero{display:none;}
-.client-caret{font-size:13px;color:var(--muted);transition:transform .2s;flex-shrink:0;margin-top:3px;}
-.client-card.open .client-caret{transform:rotate(90deg);}
-.client-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
-.client-act{background:none;border:none;cursor:pointer;font-size:14px;opacity:.45;transition:opacity .15s;padding:2px;line-height:1;}
-.client-act:hover{opacity:1;}
-
-.client-body{display:none;padding:0 15px 15px;border-top:1px solid var(--p50);}
-.client-card.open .client-body{display:block;}
-.cb-section{margin-top:13px;}
-.cb-label{font-family:'Montserrat',sans-serif;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--p400);margin-bottom:6px;}
-.cb-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:9px;}
-.cb-row select{border:1px solid var(--p200);border-radius:100px;padding:6px 11px;font-family:'Lato',sans-serif;font-size:12px;color:var(--ink2);background:var(--surf2);outline:none;cursor:pointer;}
-.cb-field{flex:1;min-width:140px;border:1px solid var(--p200);border-radius:8px;padding:8px 11px;font-family:'Lato',sans-serif;font-size:13px;color:var(--ink);background:var(--surf2);outline:none;}
-.cb-field:focus{border-color:var(--p400);}
-.cb-note{width:100%;border:1px solid var(--p200);border-radius:8px;padding:8px 11px;font-family:'Lato',sans-serif;font-size:13px;color:var(--ink);background:var(--surf2);outline:none;resize:vertical;line-height:1.5;}
-.cb-note:focus{border-color:var(--p400);}
-
-.ctodo-list{list-style:none;margin-top:4px;}
-.ctodo{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--p50);}
-.ctodo:last-child{border-bottom:none;}
-.ctodo-check{width:19px;height:19px;border-radius:6px;border:2px solid var(--p200);background:var(--surf);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
-.ctodo-check.done{background:linear-gradient(135deg,var(--p400),var(--pk400));border-color:var(--p400);}
-.ctodo-check.done::after{content:'✓';color:#fff;font-size:11px;font-weight:900;}
-.ctodo-txt{flex:1;font-size:13.5px;color:var(--ink);line-height:1.45;word-break:break-word;}
-.ctodo-txt.done{text-decoration:line-through;color:var(--muted);}
-.ctodo-pushed{font-size:9.5px;color:var(--p400);font-style:italic;margin-left:4px;}
-.ctodo-del{background:none;border:none;cursor:pointer;font-size:12px;opacity:.4;transition:opacity .15s;padding:2px;flex-shrink:0;}
-.ctodo-del:hover{opacity:1;}
-.ctodo-add{display:flex;gap:7px;margin-top:9px;}
-.ctodo-add input{flex:1;border:1px solid var(--p200);border-radius:100px;padding:7px 13px;font-family:'Lato',sans-serif;font-size:13px;color:var(--ink);background:var(--surf2);outline:none;}
-.ctodo-add input:focus{border-color:var(--p400);}
-.ctodo-add button{background:var(--p400);color:#fff;border:none;border-radius:100px;padding:0 15px;font-family:'Montserrat',sans-serif;font-size:11.5px;font-weight:800;cursor:pointer;transition:background .2s;flex-shrink:0;}
-.ctodo-add button:hover{background:var(--pk400);}
-.ctodo-opts{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;flex-wrap:wrap;}
-.ctodo-daily{display:inline-flex;align-items:center;gap:6px;font-family:'Lato',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer;}
-.ctodo-daily input{width:14px;height:14px;cursor:pointer;accent-color:var(--p400);}
-.ctodo-cat{border:1px solid var(--p200);border-radius:100px;padding:5px 10px;font-family:'Lato',sans-serif;font-size:12px;color:var(--ink2);background:var(--surf2);outline:none;cursor:pointer;}
-
-/* YOUR OFFERS */
-/* YOUR OFFERS */
-.offers-help-btn{background:var(--p50);border:1px solid var(--p200);color:var(--p600);width:22px;height:22px;border-radius:50%;
-  cursor:pointer;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:900;line-height:1;padding:0;margin-left:8px;
-  vertical-align:middle;transition:all .15s;}
-.offers-help-btn:hover{background:var(--p600);border-color:var(--p600);color:#fff;}
-.offers-help-btn.on{background:var(--p600);border-color:var(--p600);color:#fff;}
-.offers-help{background:var(--pk50);border:1px solid var(--pk200);border-radius:var(--radius-sm);padding:15px 17px;margin:12px 0 4px;
-  font-family:'Lato',sans-serif;font-size:13.5px;line-height:1.7;color:var(--ink);}
-.offers-help strong{color:var(--p600);}
-.offers-help ol{margin:9px 0 9px 18px;padding:0;}
-.offers-help li{margin:6px 0;}
-.offers-help p{margin:0 0 8px;}
-.offers-help p:last-child{margin-bottom:0;}
-.offers-panel{background:var(--surf);border:1px solid var(--p200);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;box-shadow:var(--shadow);}
-.offers-head{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:900;color:var(--p600);margin-bottom:3px;}
-.offers-sub{display:block;font-family:'Lato',sans-serif;font-size:12.5px;font-weight:400;color:var(--muted);font-style:italic;margin-top:3px;}
-.offers-empty{font-size:13px;color:var(--muted);font-style:italic;padding:10px 0 4px;}
-.offer-row{border-top:1px solid var(--p50);padding:11px 0 3px;}
-.offer-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.offer-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink);}
-.offer-chip{background:var(--p50);color:var(--p600);border-radius:100px;padding:3px 10px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;}
-.offer-edit{margin-left:auto;background:none;border:none;cursor:pointer;font-size:14px;opacity:.5;transition:opacity .15s;}
-.offer-edit:hover{opacity:1;}
-.offer-editor{display:none;padding:10px 0 6px;}
-.offer-editor.show{display:block;}
-.offer-steps{width:100%;border:1px solid var(--p200);border-radius:var(--radius-sm);padding:10px 12px;font-family:'Lato',sans-serif;
-  font-size:13px;color:var(--ink);background:var(--surf2);outline:none;resize:vertical;line-height:1.6;}
-.offer-steps:focus{border-color:var(--p400);}
-.offer-acts{display:flex;gap:6px;margin-top:9px;}
-.offer-add{width:100%;margin-top:12px;background:var(--surf2);border:2px dashed var(--p200);border-radius:100px;padding:10px 0;
-  font-family:'Montserrat',sans-serif;font-size:11.5px;font-weight:800;color:var(--p600);cursor:pointer;transition:all .18s;}
-.offer-add:hover{border-color:var(--pk200);background:var(--pk50);}
-
 /* ===== SUBTASKS ===== */
 .chip-subs{background:var(--p50);color:var(--p600);cursor:pointer;border:none;font-family:'Montserrat',sans-serif;
   font-size:10.5px;font-weight:800;border-radius:100px;padding:4px 11px;transition:all .15s;}
@@ -693,7 +563,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     <button class="welcome-close" onclick="hideWelcome()" title="Hide this">✕</button>
     <strong>Everything here saves to your own device.</strong> Nobody else sees it, and it stays put when you close the tab.
     Every tracker can be renamed, so make them yours. Tap ⚙️ on any card to swap Instagram for TikTok, change the goal, or add your own.
-    Taking clients? Set your offers up on the Clients page and everyone you add arrives with the right steps ready to tick off.
     Download your data now and then so you always have a backup. 💜
   </div>
 
@@ -716,7 +585,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
       </div>
       <div class="nav-group">Your day</div>
       <button class="nav-item" data-sec="progress" onclick="showSection('progress')"><span class="nav-emoji">🌞</span> Progress <span class="nav-count" id="navOpen">0</span></button>
-      <button class="nav-item" data-sec="clients" onclick="showSection('clients')"><span class="nav-emoji">💜</span> Clients <span class="nav-count" id="cntClients">0</span></button>
     </nav>
 
     <div class="main">
@@ -731,10 +599,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="metrics-head metrics-toggle skool-head open" id="skoolToggle" onclick="toggleSkool()">🏛️ Skool Tracker <span class="metrics-caret" id="skoolCaret">▶</span></div>
   <div class="stats-hint" id="skoolHint">Your community numbers. Log them as often as you like, every entry is kept.</div>
   <div class="skool-grid" id="skoolGrid"></div>
-      </div>
-
-      <div class="section" id="section-clients">
-        <div class="view active" id="view-clients"></div>
       </div>
 
       <div class="section" id="section-progress">
@@ -830,7 +694,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <script>
 
-const KEY='embody_wealth_command_center_v1';
+const KEY='embody_wealth_tracker_v1';
 const TASK_TABS=['daily','weekly','monthly'];
 
 /* Two tracker sets, same as the original.
@@ -847,29 +711,6 @@ const SEED_SKOOL=[
   {id:'signups', name:'Sign-ups',       emoji:'\u270d\ufe0f', kind:'count',  target:30,   lowerBetter:false, log:[]},
   {id:'conv',    name:'Conversion Rate',emoji:'\ud83d\udcc8', kind:'percent',target:10,   lowerBetter:false, log:[]},
   {id:'rank',    name:'Discovery Rank', emoji:'\ud83c\udfc6', kind:'rank',   target:1,    lowerBetter:true,  log:[]}
-];
-
-/* Where a client sits in your process */
-const STAGES=[
-  {key:'potential',name:'Potential',sub:'Leads and warm enquiries',cls:'s-potential'},
-  {key:'booked',name:'Booked',sub:'Paid, getting started',cls:'s-booked'},
-  {key:'active',name:'Active',sub:'In progress',cls:'s-active'},
-  {key:'complete',name:'Complete',sub:'Delivered and nurture',cls:'s-complete'}
-];
-const TERMS={
-  none:{label:'No set term',days:0},
-  '45d':{label:'45 days',days:45},
-  '3mo':{label:'3 months',days:90},
-  '6mo':{label:'6 months',days:180},
-  monthly:{label:'Monthly',days:30}
-};
-/* One example offer so you can see the shape. Rename it, rewrite the steps,
-   or delete it and build your own. */
-const SEED_OFFERS=[
-  {id:'o1',name:'1:1 Coaching Package',term:'3mo',steps:[
-    'Welcome email sent','Intro call booked','Intake form filled out','Session 1 done',
-    'Mid-point check in','Final session done','Wrap up + testimonial asked for'
-  ]}
 ];
 
 const GOAL_TIERS=[
@@ -889,8 +730,7 @@ function load(){
     if(s&&s.daily&&s.goals&&s.metrics){rollover(s);migrate(s);return s;}
   }catch(e){}
   return {owner:'',daily:[],weekly:[],monthly:[],goals:clone(SEED_GOALS),
-    metrics:clone(SEED_METRICS),skool:clone(SEED_SKOOL),offers:clone(SEED_OFFERS),clients:[],
-    hideDone:{},lastReset:todayStr(),welcome:true};
+    metrics:clone(SEED_METRICS),skool:clone(SEED_SKOOL),hideDone:{},lastReset:todayStr(),welcome:true};
 }
 /* Non-destructive upgrade. Adds new fields with safe defaults and never
    touches a number that has already been logged. */
@@ -905,23 +745,6 @@ function migrate(s){
     m._editing=false;m._confirmDel=false;
   });
   if(s.owner===undefined)s.owner='';
-  if(!Array.isArray(s.offers))s.offers=clone(SEED_OFFERS);
-  if(!Array.isArray(s.clients))s.clients=[];
-  s.offers.forEach(o=>{
-    if(!Array.isArray(o.steps))o.steps=[];
-    if(!o.term)o.term='none';
-    o._editing=false;o._confirmDel=false;
-  });
-  s.clients.forEach(c=>{
-    if(c.offer===undefined)c.offer='';
-    if(c.working===undefined)c.working='';
-    if(c.link===undefined)c.link=c.artifactLink||'';
-    if(c.startDate===undefined)c.startDate='';
-    if(c.term===undefined)c.term='none';
-    if(!Array.isArray(c.steps))c.steps=[];
-    if(!Array.isArray(c.todos))c.todos=[];
-    c._confirmDel=false;
-  });
   if(s.welcome===undefined)s.welcome=true;
   if(!s.goals)s.goals=clone(SEED_GOALS);
   ['year','six','three','month'].forEach(k=>{if(!Array.isArray(s.goals[k]))s.goals[k]=[];});
@@ -1274,8 +1097,6 @@ function toggleDone(id){const t=find(id);if(!t)return;
     const par=findTaskAnywhere(t.parentRef);
     if(par){const sub=subsOf(par.task).find(x=>x.id===t.parentSubRef);if(sub)sub.done=t.done;}
   }
-  // keep the matching client to-do ticked in step
-  if(t.clientTodoRef){const c=findClient(t.clientRef);if(c){const ct=(c.todos||[]).find(x=>x.id===t.clientTodoRef);if(ct)ct.done=t.done;}}
   save();renderTasks();
   if(!wasMustComplete && mustAllDone(currentTab) && (t.cat||'general')==='must'){
     const lbl=currentTab==='daily'?'Must-Do done for today!':currentTab==='weekly'?'Must-Do done this week!':'Must-Do done this month!';
@@ -1299,16 +1120,14 @@ function moveTask(id){
   save();renderTasks();
   toast('→ Moved to '+{daily:'Daily',weekly:'Weekly',monthly:'Monthly'}[dest]);
 }
+function deleteTask(id){
+  releaseSub(find(id));
+  state[currentTab]=state[currentTab].filter(t=>t.id!==id);save();renderTasks();}
 function releaseSub(t){
   if(!t||!t.parentSubRef)return;
   const par=findTaskAnywhere(t.parentRef);
   if(par){const sub=subsOf(par.task).find(x=>x.id===t.parentSubRef);if(sub)sub.pushed=false;}
 }
-function deleteTask(id){
-  const t=find(id);
-  releaseSub(t);
-  if(t&&t.clientTodoRef){const c=findClient(t.clientRef);if(c){const ct=(c.todos||[]).find(x=>x.id===t.clientTodoRef);if(ct)ct.pushed=false;}}
-  state[currentTab]=state[currentTab].filter(t=>t.id!==id);save();renderTasks();}
 function find(id){return state[currentTab].find(t=>t.id===id);}
 function cycleCat(id){const t=find(id);if(!t)return;const order={must:'content',content:'general',general:'must'};t.cat=order[t.cat||'general'];t.must=(t.cat==='must');save();renderTasks();}
 function toggleNote(id){
@@ -1574,371 +1393,6 @@ function toggleHideDone(){
   save();renderTasks();
 }
 
-/* CLIENTS / PIPELINE */
-function refreshClientCount(){
-  const cc=document.getElementById('cntClients');
-  if(cc)cc.textContent=(state.clients||[]).filter(c=>c.stage!=='complete').length;
-  if(typeof refreshNavCount==='function')refreshNavCount();
-}
-
-function renderClients(){
-  const view=document.getElementById('view-clients');
-  const clients=state.clients||[];
-  let html='<div class="clients-intro">Your people, by where they\u2019re at. Pick a name to jump to their profile, or scan the board below. 💜</div>';
-  html+=renderOffers();
-
-  // Jump-to dropdown
-  html+=`<div class="client-jump">
-    <label>Jump to client</label>
-    <select id="clientJump" onchange="jumpToClient(this.value)">
-      <option value="">— Select a client —</option>
-      ${clients.map(c=>`<option value="${c.id}">${esc(c.name)} · ${esc(offerName(c.offer))}</option>`).join('')}
-    </select>
-  </div>`;
-
-  // Add bar
-  html+=`<div class="client-addbar">
-    <div class="client-addbar-row">
-      <input type="text" id="clientNameInput" placeholder="New client name..." onkeydown="if(event.key==='Enter')addClient()">
-      <button class="addbar-add" onclick="addClient()">+ Add</button>
-    </div>
-    <div class="client-addbar-opts">
-      <label>Offer</label>
-      <select id="clientOfferInput">${offerOptions('')}</select>
-      <label>Stage</label>
-      <select id="clientStageInput">${STAGES.map(s=>`<option value="${s.key}">${s.name}</option>`).join('')}</select>
-    </div>
-  </div>`;
-
-  // Pipeline
-  STAGES.forEach(stage=>{
-    const group=clients.filter(c=>c.stage===stage.key);
-    html+=`<div class="pipe-stage">
-      <div class="pipe-head"><span class="pipe-dot ${stage.cls}"></span><span class="pipe-name">${stage.name}</span><span class="pipe-count">${group.length}</span><span class="pipe-line"></span></div>`;
-    if(group.length===0){
-      html+=`<div class="empty" style="padding:18px;">No one here yet.</div>`;
-    }else{
-      group.forEach(c=>{html+=clientCardHtml(c,stage);});
-    }
-    html+=`</div>`;
-  });
-  view.innerHTML=html;
-  refreshClientCount();
-}
-
-/* YOUR OFFERS — you name them, you write the steps */
-let offersHelpOpen=false;
-function toggleOffersHelp(){offersHelpOpen=!offersHelpOpen;renderClients();}
-const OFFERS_HELP=`<div class="offers-help">
-  <p>An offer is one thing you sell. A package, a program, a single session. Set it up once and every client you add on it arrives with your steps already there.</p>
-  <p><strong>To add one:</strong></p>
-  <ol>
-    <li>Tap <strong>+ Add an offer</strong> at the bottom of this panel. A new one appears with the editor already open.</li>
-    <li>Give it a <strong>name</strong>. Whatever you call it when you're selling it.</li>
-    <li>Set <strong>how long it runs</strong>. If there's no fixed end, leave it on No set term.</li>
-    <li>List your <strong>steps, one per line</strong>. Hit Enter between each one. Start with the first thing you do when someone books, and end with the last thing you do before you close them out.</li>
-    <li>Tap <strong>Save</strong>.</li>
-  </ol>
-  <p>Write the steps the way you actually work. The small ones count. If you always send a form before the first call, that's a step. If you always check in at week four, that's a step. Those are the ones that get dropped when you're busy.</p>
-  <p><strong>To change an offer later</strong>, tap the gear on its row above. Editing an offer leaves clients you've already added exactly as they are, so nobody loses their progress.</p>
-</div>`;
-function findOffer(id){return (state.offers||[]).find(o=>o.id===id);}
-function offerName(id){const o=findOffer(id);return o?o.name:'No offer set';}
-function offerOptions(sel){
-  let h='<option value="" '+(!sel?'selected':'')+'>No offer set</option>';
-  (state.offers||[]).forEach(o=>{h+=`<option value="${o.id}" ${o.id===sel?'selected':''}>${esc(o.name)}</option>`;});
-  return h;
-}
-function termOptions(sel){
-  return Object.keys(TERMS).map(k=>`<option value="${k}" ${k===sel?'selected':''}>${TERMS[k].label}</option>`).join('');
-}
-function renderOffers(){
-  const offers=state.offers||[];
-  let h=`<div class="offers-panel">
-    <div class="offers-head">\ud83e\uddf0 Your Offers<button class="offers-help-btn ${offersHelpOpen?'on':''}" title="How do I add an offer?" onclick="toggleOffersHelp()">?</button><span class="offers-sub">Name each one and list the steps you walk a client through. Every client you add then arrives with those steps ready to tick off.</span></div>`;
-  if(offersHelpOpen)h+=OFFERS_HELP;
-  if(!offers.length)h+=`<div class="offers-empty">Nothing here yet. Add your first offer below.</div>`;
-  offers.forEach(o=>{
-    const n=(o.steps||[]).length;
-    h+=`<div class="offer-row">
-      <div class="offer-line">
-        <span class="offer-name">${esc(o.name)}</span>
-        <span class="offer-chip">${n} step${n===1?'':'s'}</span>
-        <span class="offer-chip">${esc(TERMS[o.term]?TERMS[o.term].label:'No set term')}</span>
-        <button class="offer-edit" title="Edit this offer" onclick="toggleOfferEdit('${o.id}')">\u2699\ufe0f</button>
-      </div>
-      <div class="offer-editor ${o._editing?'show':''}">
-        <div class="cb-label">Offer name</div>
-        <input class="cb-field" style="width:100%;" id="ofname-${o.id}" value="${esc(o.name)}" placeholder="What do you call it?">
-        <div class="cb-label" style="margin-top:9px;">How long it runs</div>
-        <select id="ofterm-${o.id}" style="width:100%;border:1px solid var(--p200);border-radius:100px;padding:8px 13px;font-family:'Lato',sans-serif;font-size:13px;background:var(--surf2);color:var(--ink);outline:none;">${termOptions(o.term)}</select>
-        <div class="cb-label" style="margin-top:9px;">Steps, one per line</div>
-        <textarea class="offer-steps" id="ofsteps-${o.id}" rows="8" placeholder="Welcome email sent&#10;Intro call booked&#10;Intake form filled out">${esc((o.steps||[]).join('\n'))}</textarea>
-        <div class="offer-acts">
-          <button class="mep-btn mep-save" onclick="saveOffer('${o.id}')">\u2713 Save</button>
-          <button class="mep-btn mep-del ${o._confirmDel?'confirming':''}" onclick="deleteOffer('${o.id}')">${o._confirmDel?'Tap again to delete':'\ud83d\uddd1\ufe0f Delete'}</button>
-        </div>
-      </div>
-    </div>`;
-  });
-  h+=`<button class="offer-add" onclick="addOffer()">+ Add an offer</button></div>`;
-  return h;
-}
-function toggleOfferEdit(id){
-  const o=findOffer(id);if(!o)return;
-  const was=o._editing;
-  (state.offers||[]).forEach(x=>{x._editing=false;x._confirmDel=false;});
-  o._editing=!was;renderClients();
-}
-function addOffer(){
-  state.offers=state.offers||[];
-  (state.offers).forEach(x=>{x._editing=false;});
-  const o={id:'o'+Date.now(),name:'New Offer',term:'none',steps:[],_editing:true,_confirmDel:false};
-  state.offers.push(o);save();renderClients();
-  setTimeout(()=>{const el=document.getElementById('ofname-'+o.id);if(el){el.focus();el.select();}},60);
-}
-function saveOffer(id){
-  const o=findOffer(id);if(!o)return;
-  const nm=document.getElementById('ofname-'+id).value.trim();
-  const term=document.getElementById('ofterm-'+id).value;
-  const raw=document.getElementById('ofsteps-'+id).value;
-  if(nm)o.name=nm;
-  o.term=term;
-  o.steps=raw.split('\n').map(x=>x.trim()).filter(x=>x.length);
-  o._editing=false;o._confirmDel=false;
-  save();renderClients();toast('\u2713 Offer saved');
-}
-/* Two-step delete. Clients already on this offer keep the steps they have. */
-function deleteOffer(id){
-  const o=findOffer(id);if(!o)return;
-  if(!o._confirmDel){
-    (state.offers||[]).forEach(x=>{x._confirmDel=false;});
-    o._confirmDel=true;renderClients();return;
-  }
-  state.offers=(state.offers||[]).filter(x=>x.id!==id);
-  save();renderClients();toast('Offer removed');
-}
-
-function termInfo(c){
-  if(!c.term||c.term==='none'||!c.startDate)return null;
-  const days=TERMS[c.term].days;const label=TERMS[c.term].label;
-  const start=new Date(c.startDate+'T00:00:00');
-  const today=new Date(todayStr()+'T00:00:00');
-  let end=new Date(start);end.setDate(end.getDate()+days);
-  // monthly rolls forward to the next future renewal
-  if(c.term==='monthly'){
-    while(end<today){end.setDate(end.getDate()+30);}
-  }
-  const left=Math.round((end-today)/86400000);
-  const endLabel=end.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  let cls='ok';if(left<0)cls='over';else if(left<=10)cls='soon';
-  let leftTxt;
-  if(c.term==='monthly'){leftTxt=left<0?'Renewal passed':left+' days to renewal';}
-  else{leftTxt=left<0?Math.abs(left)+' days over':left+' days left';}
-  return {label,endLabel,leftTxt,cls};
-}
-
-function clientCardHtml(c,stage){
-  const openTodos=(c.todos||[]).filter(t=>!t.done).length;
-  const steps=c.steps||[];const stepsDone=steps.filter(s=>s.done).length;
-  const ti=termInfo(c);
-  return `<div class="client-card ${stage.cls} ${c.open?'open':''}" data-cid="${c.id}" id="card-${c.id}">
-    <div class="client-top" onclick="toggleClient('${c.id}')">
-      <div class="client-info">
-        <div class="client-name">${esc(c.name)}</div>
-        <div class="client-meta">
-          <span class="client-chip offer">${esc(offerName(c.offer))}</span>
-          ${ti?`<span class="client-chip term ${ti.cls}">⏳ ${ti.leftTxt}</span>`:''}
-          ${c.working?`<span class="client-chip working">🔨 ${esc(c.working)}</span>`:''}
-          ${c.link?`<a class="client-chip artifact" href="${esc(c.link)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">🔗 Link</a>`:''}
-          ${steps.length?`<span class="client-chip steps">${stepsDone}/${steps.length} steps</span>`:''}
-          <span class="client-chip todos ${openTodos===0?'zero':''}">${openTodos} to-do${openTodos===1?'':'s'}</span>
-        </div>
-      </div>
-      <div class="client-actions">${c._confirmDel
-        ? `<button class="client-act confirm-yes" title="Confirm delete" onclick="event.stopPropagation();confirmDeleteClient('${c.id}')">✓</button><button class="client-act confirm-no" title="Cancel" onclick="event.stopPropagation();cancelDeleteClient('${c.id}')">✕</button>`
-        : `<button class="client-act" title="Delete client" onclick="event.stopPropagation();askDeleteClient('${c.id}')">🗑️</button>`}</div>
-      <span class="client-caret">▶</span>
-    </div>
-    <div class="client-body">
-      <div class="cb-section">
-        <div class="cb-label">Name</div>
-        <input class="cb-field" style="width:100%;" value="${esc(c.name)}" placeholder="Client name..." onchange="setClientName('${c.id}',this.value)">
-      </div>
-      <div class="cb-section">
-        <div class="cb-row">
-          <select onchange="setClientStage('${c.id}',this.value)">${STAGES.map(s=>`<option value="${s.key}" ${s.key===c.stage?'selected':''}>${s.name}</option>`).join('')}</select>
-          <select onchange="setClientOffer('${c.id}',this.value)">${offerOptions(c.offer)}</select>
-        </div>
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">Engagement</div>
-        <div class="cb-row">
-          <select onchange="setClientTerm('${c.id}',this.value)">${termOptions(c.term||'none')}</select>
-          <input type="date" class="cb-date" value="${c.startDate||''}" title="Start date" onchange="setClientStart('${c.id}',this.value)">
-        </div>
-        ${ti?`<div class="term-readout ${ti.cls}"><strong>${ti.label}</strong> · ${c.term==='monthly'?'next renewal':'ends'} ${ti.endLabel} · ${ti.leftTxt}</div>`:'<div class="term-hint">Set a term and start date to track days left.</div>'}
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">Currently working on</div>
-        <input class="cb-field" style="width:100%;" value="${esc(c.working||'')}" placeholder="e.g. prepping session 3, writing up their plan..." onchange="setClientWorking('${c.id}',this.value)">
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">Link</div>
-        <div class="artifact-row">
-          <input class="cb-field" id="artin-${c.id}" value="${esc(c.link||'')}" placeholder="Their folder, doc, portal, anywhere you keep their stuff..." onchange="setClientArtifact('${c.id}',this.value)">
-          ${c.link?`<a class="artifact-open" href="${esc(c.link)}" target="_blank" rel="noopener">Open ↗</a>`:''}
-        </div>
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">${esc(offerName(c.offer))} steps</div>
-        <ul class="step-list">${renderSteps(c)}</ul>
-        ${(findOffer(c.offer)&&findOffer(c.offer).steps.length)?`<button class="step-reload" onclick="reloadSteps('${c.id}')">↻ Reload the ${esc(offerName(c.offer))} steps</button>`:''}
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">Next step (quick note)</div>
-        <input class="cb-field" style="width:100%;" value="${esc(c.next||'')}" placeholder="The very next action..." onchange="setClientNext('${c.id}',this.value)">
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">Notes</div>
-        <textarea class="cb-note" rows="3" placeholder="Where they\u2019re at, what came up, what they need..." onchange="setClientNote('${c.id}',this.value)">${esc(c.note||'')}</textarea>
-      </div>
-
-      <div class="cb-section">
-        <div class="cb-label">To-dos</div>
-        <ul class="ctodo-list">${renderClientTodos(c)}</ul>
-        <div class="ctodo-add">
-          <input type="text" id="ctodoin-${c.id}" placeholder="Add a to-do..." onkeydown="if(event.key==='Enter')addClientTodo('${c.id}')">
-          <button onclick="addClientTodo('${c.id}')">+ Add</button>
-        </div>
-        <div class="ctodo-opts">
-          <label class="ctodo-daily"><input type="checkbox" id="ctododaily-${c.id}"> Also add to my to-do list</label>
-          <select class="ctodo-cat" id="ctodocat-${c.id}" title="Which list it lands in">
-            <option value="general">📋 General</option>
-            <option value="must">⭐ Must Do</option>
-            <option value="content">✍️ Content</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
-function renderSteps(c){
-  const steps=c.steps||[];
-  if(steps.length===0)return '<li style="color:var(--muted);font-style:italic;font-size:12.5px;padding:5px 0;">No steps for this offer yet.</li>';
-  return steps.map((s,i)=>`<li class="step ${s.done?'done':''}">
-    <div class="step-check ${s.done?'done':''}" onclick="toggleStep('${c.id}',${i})"></div>
-    <div class="step-txt ${s.done?'done':''}">${esc(s.text)}</div>
-  </li>`).join('');
-}
-
-function renderClientTodos(c){
-  const todos=c.todos||[];
-  if(todos.length===0)return '<li style="color:var(--muted);font-style:italic;font-size:12.5px;padding:5px 0;">Nothing yet.</li>';
-  return todos.map(t=>`<li class="ctodo">
-    <div class="ctodo-check ${t.done?'done':''}" onclick="toggleClientTodo('${c.id}','${t.id}')"></div>
-    <div class="ctodo-txt ${t.done?'done':''}">${esc(t.text)}${t.pushed?'<span class="ctodo-pushed">↗ in Daily</span>':''}</div>
-    <button class="ctodo-del" title="Remove" onclick="deleteClientTodo('${c.id}','${t.id}')">🗑️</button>
-  </li>`).join('');
-}
-
-function findClient(id){return (state.clients||[]).find(c=>c.id===id);}
-function stepsForOffer(id){const o=findOffer(id);return o?o.steps.map(s=>({text:s,done:false})):[];}
-
-function jumpToClient(id){
-  if(!id)return;
-  const c=findClient(id);if(!c)return;
-  (state.clients||[]).forEach(x=>{x.open=(x.id===id);});
-  save();showSection('clients');renderClients();
-  setTimeout(()=>{const el=document.getElementById('card-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},60);
-}
-
-function addClient(){
-  const inp=document.getElementById('clientNameInput');const name=inp.value.trim();if(!name)return;
-  const offer=document.getElementById('clientOfferInput').value;
-  const stage=document.getElementById('clientStageInput').value;
-  state.clients=state.clients||[];
-  const o=findOffer(offer);
-  state.clients.push({id:'c'+Date.now(),name,offer,stage,next:'',working:'',link:'',note:'',startDate:'',term:o?o.term:'none',steps:stepsForOffer(offer),todos:[],open:true});
-  inp.value='';save();renderClients();
-}
-function toggleClient(id){const c=findClient(id);if(!c)return;c.open=!c.open;save();renderClients();}
-function askDeleteClient(id){(state.clients||[]).forEach(c=>c._confirmDel=false);const c=findClient(id);if(c)c._confirmDel=true;renderClients();}
-function cancelDeleteClient(id){const c=findClient(id);if(c)c._confirmDel=false;renderClients();}
-function confirmDeleteClient(id){state.clients=state.clients.filter(c=>c.id!==id);save();renderClients();toast('🗑️ Client removed');}
-function setClientStage(id,v){const c=findClient(id);if(!c)return;c.stage=v;save();renderClients();}
-function setClientOffer(id,v){
-  const c=findClient(id);if(!c)return;
-  const hadProgress=(c.steps||[]).some(s=>s.done);
-  c.offer=v;
-  // Auto-load the new offer's steps only if none are checked yet.
-  // If they've started, keep their steps so progress is never lost — they can
-  // use "Reset to default steps" if they want the new list.
-  if(!hadProgress){
-    c.steps=stepsForOffer(v);
-    const o=findOffer(v);
-    if(o&&(!c.term||c.term==='none'))c.term=o.term;
-  }else{
-    toast('Kept your steps — use Reload to swap them');
-  }
-  save();renderClients();
-}
-function setClientTerm(id,v){const c=findClient(id);if(!c)return;c.term=v;save();renderClients();}
-function setClientStart(id,v){const c=findClient(id);if(!c)return;c.startDate=v||'';save();renderClients();}
-function setClientWorking(id,v){const c=findClient(id);if(!c)return;c.working=v.trim();save();renderClients();}
-function setClientArtifact(id,v){const c=findClient(id);if(!c)return;c.link=v.trim();save();renderClients();}
-function setClientNext(id,v){const c=findClient(id);if(!c)return;c.next=v.trim();save();renderClients();}
-function setClientNote(id,v){const c=findClient(id);if(!c)return;c.note=v;save();}
-function setClientName(id,v){
-  const c=findClient(id);if(!c)return;const newName=v.trim();if(!newName)return;
-  const oldName=c.name;c.name=newName;
-  // keep any to-dos mirrored into the Daily tab in sync with the new name
-  (c.todos||[]).forEach(t=>{
-    if(t.pushed){const m=state.daily.find(d=>d.clientTodoRef===t.id);if(m)m.text=newName+': '+t.text;}
-  });
-  save();renderClients();
-}
-function toggleStep(id,i){const c=findClient(id);if(!c||!c.steps[i])return;
-  const wasComplete=c.steps.length>0 && c.steps.every(s=>s.done);
-  c.steps[i].done=!c.steps[i].done;save();renderClients();
-  const nowComplete=c.steps.length>0 && c.steps.every(s=>s.done);
-  if(!wasComplete && nowComplete){celebrate({big:true,toast:'✨ '+c.name+' — all steps complete!'});}
-}
-function reloadSteps(id){const c=findClient(id);if(!c)return;c.steps=stepsForOffer(c.offer);save();renderClients();toast('↻ Loaded the '+offerName(c.offer)+' steps');}
-
-function addClientTodo(cid){
-  const c=findClient(cid);if(!c)return;
-  const inp=document.getElementById('ctodoin-'+cid);const text=inp.value.trim();if(!text)return;
-  const chk=document.getElementById('ctododaily-'+cid);const pushToDaily=chk?chk.checked:false;
-  const catSel=document.getElementById('ctodocat-'+cid);const cat=catSel?catSel.value:'general';
-  const tid='ct'+Date.now();
-  c.todos=c.todos||[];
-  c.todos.push({id:tid,text,done:false,pushed:pushToDaily,cat});
-  if(pushToDaily){
-    state.daily.push({id:'t'+Date.now(),text:c.name+': '+text,cat,must:cat==='must',prio:cat==='must'?'high':'med',note:'',due:'',done:false,recurring:false,clientRef:cid,clientTodoRef:tid});
-  }
-  inp.value='';save();renderClients();
-  if(pushToDaily)toast('Added to your '+catName(cat)+' list');
-}
-function toggleClientTodo(cid,tid){
-  const c=findClient(cid);if(!c)return;const t=c.todos.find(x=>x.id===tid);if(!t)return;
-  t.done=!t.done;
-  const mirror=state.daily.find(d=>d.clientTodoRef===tid);if(mirror)mirror.done=t.done;
-  save();renderClients();
-}
-function deleteClientTodo(cid,tid){
-  const c=findClient(cid);if(!c)return;c.todos=c.todos.filter(x=>x.id!==tid);
-  state.daily=state.daily.filter(d=>d.clientTodoRef!==tid);
-  save();renderClients();
-}
-
 /* GOALS — now with inline text editing */
 function renderGoals(){
   const view=document.getElementById('view-goals');
@@ -2167,30 +1621,6 @@ function exportDoc(){
     if(!any)h+='<p class="sub">Nothing on this list.</p>';
   });
 
-  h+='<h2>Your Offers</h2>';
-  if(!(state.offers||[]).length)h+='<p class="sub">None set up.</p>';
-  (state.offers||[]).forEach(function(o){
-    h+='<h3>'+E(o.name)+' \u00b7 '+E(TERMS[o.term]?TERMS[o.term].label:'No set term')+'</h3><ul>'+
-      (o.steps||[]).map(function(st){return '<li>'+E(st)+'</li>';}).join('')+'</ul>';
-  });
-
-  h+='<h2>Clients</h2>';
-  if(!(state.clients||[]).length)h+='<p class="sub">No one on the board yet.</p>';
-  STAGES.forEach(function(stage){
-    const group=(state.clients||[]).filter(function(c){return c.stage===stage.key;});
-    if(!group.length)return;
-    h+='<h3>'+E(stage.name)+'</h3>';
-    group.forEach(function(c){
-      const done=(c.steps||[]).filter(function(x){return x.done;}).length;
-      h+='<p><strong>'+E(c.name)+'</strong> \u00b7 '+E(offerName(c.offer))+' \u00b7 '+done+'/'+((c.steps||[]).length)+' steps'+
-        (c.working?' \u00b7 working on: '+E(c.working):'')+
-        (c.next?'<br>Next: '+E(c.next):'')+
-        (c.note?'<br>Notes: '+E(c.note):'')+'</p>';
-      const open=(c.todos||[]).filter(function(t){return !t.done;});
-      if(open.length)h+='<ul>'+open.map(function(t){return '<li>\u2610 '+E(t.text)+'</li>';}).join('')+'</ul>';
-    });
-  });
-
   h+='<h2>Goals</h2>';
   GOAL_TIERS.forEach(function(tier){
     const goals=(state.goals[tier.key]||[]);
@@ -2274,7 +1704,7 @@ function doRestore(){
   state=_pendingRestore;_pendingRestore=null;
   migrate(state);save();
   document.getElementById('todayDate').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  renderOwner();renderAllStats();renderTasks();renderClients();
+  renderOwner();renderAllStats();renderTasks();
   switchTab('daily');
   setBackupHint('','');refreshBackupHint();
   celebrate({toast:'✓ Restored your data'});
@@ -2385,7 +1815,7 @@ function setMenuLabel(name){
 
 /* LEFT MENU — trackers on one screen, your day on the other, so nothing needs scrolling past */
 function showSection(name){
-  if(['trackers','progress','clients'].indexOf(name)<0)name='progress';
+  if(name!=='trackers'&&name!=='progress')name='progress';
   state.section=name;
   try{save();}catch(e){}
   document.querySelectorAll('.section').forEach(function(s){s.classList.toggle('active',s.id==='section-'+name);});
@@ -2393,7 +1823,6 @@ function showSection(name){
   const subs=document.getElementById('navSubs');
   if(subs)subs.style.display=(name==='trackers')?'':'none';
   setMenuLabel(name);closeMenu();
-  if(name==='clients')renderClients();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function jumpTo(id){
@@ -2424,7 +1853,6 @@ if(!state.welcome)document.getElementById('welcomeNote').style.display='none';
 renderOwner();
 renderAllStats();
 renderTasks();
-renderClients();
 showSection(state.section||'progress');
 refreshNavCount();
 refreshBackupHint();
