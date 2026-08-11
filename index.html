@@ -489,6 +489,46 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
   .skool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 }
+
+/* ===== SUBTASKS ===== */
+.chip-subs{background:var(--p50);color:var(--p600);cursor:pointer;border:none;font-family:'Montserrat',sans-serif;
+  font-size:10.5px;font-weight:800;border-radius:100px;padding:4px 11px;transition:all .15s;}
+.chip-subs:hover{background:var(--p200);}
+.chip-subs.all-done{background:var(--green-bg);color:var(--green);}
+.chip-parent{background:var(--pk50);color:var(--pk400);font-weight:800;}
+.subs-panel{display:none;margin-top:11px;padding:12px 14px;background:var(--surf2);border:1px solid var(--p50);border-radius:var(--radius-sm);}
+.subs-panel.show{display:block;}
+.subs-head{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+.subs-bar{flex:1;height:5px;background:var(--p50);border-radius:100px;overflow:hidden;}
+.subs-bar-fill{height:100%;background:linear-gradient(90deg,var(--p400),var(--pk400));border-radius:100px;transition:width .3s;}
+.sub-row{display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-bottom:1px solid var(--p50);}
+.sub-row:last-of-type{border-bottom:none;}
+.sub-check{width:17px;height:17px;flex-shrink:0;border:2px solid var(--p200);border-radius:5px;cursor:pointer;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.sub-check:hover{border-color:var(--p400);}
+.sub-check.done{background:var(--p600);border-color:var(--p600);}
+.sub-check.done::after{content:'\2713';color:#fff;font-size:11px;font-weight:900;}
+.sub-text{flex:1;font-family:'Lato',sans-serif;font-size:13.5px;color:var(--ink);line-height:1.45;}
+.sub-text.done{text-decoration:line-through;color:var(--muted);}
+.sub-pushed{background:var(--pk50);color:var(--pk400);border-radius:100px;padding:2px 8px;font-family:'Montserrat',sans-serif;
+  font-size:9px;font-weight:800;white-space:nowrap;align-self:center;}
+.sub-btn{background:none;border:none;cursor:pointer;font-size:12px;opacity:.4;padding:0 2px;transition:opacity .15s;align-self:center;}
+.sub-btn:hover{opacity:1;}
+.subs-add{display:flex;gap:6px;margin-top:10px;}
+.subs-add input{flex:1;min-width:0;border:1px solid var(--p200);border-radius:100px;padding:8px 13px;
+  font-family:'Lato',sans-serif;font-size:13px;color:var(--ink);background:var(--surf);outline:none;}
+.subs-add input:focus{border-color:var(--p400);}
+.subs-add button{background:var(--p600);color:#fff;border:none;border-radius:100px;padding:8px 16px;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;transition:background .15s;}
+.subs-add button:hover{background:var(--pk400);}
+.subs-opts{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;flex-wrap:wrap;}
+.subs-daily{display:inline-flex;align-items:center;gap:6px;font-family:'Lato',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer;}
+.subs-daily input{width:14px;height:14px;cursor:pointer;accent-color:var(--p400);}
+.subs-cat{border:1px solid var(--p200);border-radius:100px;padding:5px 10px;font-family:'Lato',sans-serif;font-size:12px;
+  color:var(--ink2);background:var(--surf);outline:none;cursor:pointer;}
+.subs-empty{font-family:'Lato',sans-serif;font-size:12.5px;color:var(--muted);font-style:italic;padding:2px 0 4px;}
+.subs-alldone{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:var(--green);padding:8px 0 2px;}
 </style>
 </head>
 <body>
@@ -703,6 +743,8 @@ function migrate(s){
       if(t.cat===undefined)t.cat=t.must?'must':'general';
       if(t.cat==='skool')t.cat='content';
       if(t.recurring===undefined)t.recurring=false;
+      if(!Array.isArray(t.subs))t.subs=[];
+      t.subs.forEach(sb=>{if(sb.done===undefined)sb.done=false;if(sb.pushed===undefined)sb.pushed=false;});
     });
   });
 }
@@ -1031,13 +1073,18 @@ function addTask(){
   const cat=document.getElementById('catInput').value;
   const due=document.getElementById('dueInput').value||'';
   const dest=currentTab;
-  const task={id:'t'+Date.now(),text,cat,must:cat==='must',prio:document.getElementById('prioInput').value,note:'',due,done:false,recurring:false};
+  const task={id:'t'+Date.now(),text,cat,must:cat==='must',prio:document.getElementById('prioInput').value,note:'',due,done:false,recurring:false,subs:[]};
   state[dest]=state[dest]||[];state[dest].push(task);
   input.value='';document.getElementById('dueInput').value='';save();renderTasks();
 }
 function toggleDone(id){const t=find(id);if(!t)return;
   const wasMustComplete=mustAllDone(currentTab);
   t.done=!t.done;if(t.done)t.rolled=false;
+  // a step pushed here from a bigger task stays in step with it
+  if(t.parentSubRef){
+    const par=findTaskAnywhere(t.parentRef);
+    if(par){const sub=subsOf(par.task).find(x=>x.id===t.parentSubRef);if(sub)sub.done=t.done;}
+  }
   save();renderTasks();
   if(!wasMustComplete && mustAllDone(currentTab) && (t.cat||'general')==='must'){
     const lbl=currentTab==='daily'?'Must-Do done for today!':currentTab==='weekly'?'Must-Do done this week!':'Must-Do done this month!';
@@ -1061,7 +1108,14 @@ function moveTask(id){
   save();renderTasks();
   toast('→ Moved to '+{daily:'Daily',weekly:'Weekly',monthly:'Monthly'}[dest]);
 }
-function deleteTask(id){state[currentTab]=state[currentTab].filter(t=>t.id!==id);save();renderTasks();}
+function deleteTask(id){
+  releaseSub(find(id));
+  state[currentTab]=state[currentTab].filter(t=>t.id!==id);save();renderTasks();}
+function releaseSub(t){
+  if(!t||!t.parentSubRef)return;
+  const par=findTaskAnywhere(t.parentRef);
+  if(par){const sub=subsOf(par.task).find(x=>x.id===t.parentSubRef);if(sub)sub.pushed=false;}
+}
 function find(id){return state[currentTab].find(t=>t.id===id);}
 function cycleCat(id){const t=find(id);if(!t)return;const order={must:'content',content:'general',general:'must'};t.cat=order[t.cat||'general'];t.must=(t.cat==='must');save();renderTasks();}
 function toggleNote(id){
@@ -1078,19 +1132,130 @@ function dueInfo(due){
 function buildTaskEl(t){
   const cat=t.cat||'general';
   const catIcon=cat==='must'?'⭐':cat==='content'?'✍️':'📋';
-  const di=dueInfo(t.due);const el=document.createElement('div');el.className='task prio-'+t.prio+(cat==='must'?' must-card':cat==='content'?' skool-card':'');
+  const st=subStats(t);
+  const di=dueInfo(t.due);const el=document.createElement('div');el.setAttribute('data-task',t.id);el.className='task prio-'+t.prio+(cat==='must'?' must-card':cat==='content'?' skool-card':'');
   el.innerHTML=`<div class="task-check ${t.done?'done':''}" onclick="toggleDone('${t.id}')"></div>
     <div class="task-main"><div class="task-text ${t.done?'done':''}">${esc(t.text)}</div>
       <div class="task-meta"><button class="chip chip-${t.prio} chip-prio-btn" title="Tap to change priority" onclick="cyclePrio('${t.id}')">${t.prio==='high'?'🔴 High':t.prio==='med'?'🟡 Med':'🟣 Low'}</button>
         ${t.recurring?'<span class="chip chip-recur">🔁 Recurring</span>':''}
         ${t.rolled?'<span class="chip chip-roll">↪ Carried over</span>':''}
         <span class="chip-due-wrap"><span class="chip chip-due ${di?di.cls:'chip-add-due'}" onclick="openDue('${t.id}')">📅 ${di?di.label:'Add date'}</span><input type="date" id="due-${t.id}" class="chip-due-input" value="${t.due||''}" onchange="setDue('${t.id}',this.value)"></span>
-        ${t.note?'<span class="chip" style="background:var(--surf2);color:var(--muted);">📝 Note</span>':''}</div>
+        ${t.note?'<span class="chip" style="background:var(--surf2);color:var(--muted);">📝 Note</span>':''}
+        <button class="chip chip-subs ${st.total&&st.done===st.total?'all-done':''}" title="Break this into steps" onclick="toggleSubs('${t.id}')">☷ ${st.total?st.done+'/'+st.total+' steps':'Steps'}</button>
+        ${t.parentText?`<button class="chip chip-parent" title="Go to the task this belongs to" onclick="goToParent('${t.parentRef}')">↳ ${esc(t.parentText)}</button>`:''}</div>
       ${t.note?`<div class="task-note show">${esc(t.note)}</div>`:''}
-      <textarea class="note-edit" data-id="${t.id}" rows="2" placeholder="Add a note..."></textarea></div>
+      <textarea class="note-edit" data-id="${t.id}" rows="2" placeholder="Add a note..."></textarea>
+      ${buildSubsPanel(t)}</div>
     <div class="task-actions"><button class="act-btn" title="Move to another list (Must Do / Content / General)" onclick="cycleCat('${t.id}')">${catIcon}</button><button class="act-btn" title="Move to Daily / Weekly / Monthly" onclick="moveTask('${t.id}')">↔</button><button class="act-btn ${t.recurring?'recur-on':''}" title="${t.recurring?'Recurring: comes back when you clear done':'Make recurring (stays when you clear done)'}" onclick="toggleRecurring('${t.id}')">🔁</button><button class="act-btn" title="Edit note" onclick="toggleNote('${t.id}')">📝</button><button class="act-btn" title="Delete" onclick="deleteTask('${t.id}')">🗑️</button></div>`;
   return el;
 }
+
+/* ===== SUBTASKS =====
+   Break a big task into the steps that actually get it done. Tick a step off
+   here or in your Daily list and it stays in step in both places. The parent
+   never ticks itself, you do that when you're satisfied it's finished. */
+function findTaskAnywhere(id){
+  for(const tab of TASK_TABS){
+    const t=(state[tab]||[]).find(x=>x.id===id);
+    if(t)return {task:t,tab:tab};
+  }
+  return null;
+}
+function subsOf(t){return Array.isArray(t.subs)?t.subs:(t.subs=[]);}
+function subStats(t){
+  const s=subsOf(t);
+  return {total:s.length,done:s.filter(x=>x.done).length};
+}
+function toggleSubs(id){
+  const t=find(id);if(!t)return;
+  t._subsOpen=!t._subsOpen;save();renderTasks();
+}
+function addSub(id){
+  const t=find(id);if(!t)return;
+  const inp=document.getElementById('subin-'+id);
+  const text=inp.value.trim();if(!text)return;
+  const sub={id:'s'+Date.now(),text:text,done:false,pushed:false};
+  subsOf(t).push(sub);
+  inp.value='';
+  const daily=document.getElementById('subdaily-'+id);
+  if(daily&&daily.checked){
+    const cat=(document.getElementById('subcat-'+id)||{}).value||'general';
+    pushSubToDaily(t,sub,cat);
+  }
+  t._subsOpen=true;save();renderTasks();
+}
+function pushSubToDaily(parent,sub,cat){
+  state.daily=state.daily||[];
+  state.daily.push({id:'t'+Date.now()+Math.floor(Math.random()*99),text:sub.text,
+    cat:cat,must:cat==='must',prio:'med',note:'',due:'',done:sub.done,recurring:false,subs:[],
+    parentRef:parent.id,parentSubRef:sub.id,parentText:parent.text});
+  sub.pushed=true;
+}
+function sendSubToDaily(id,subId){
+  const t=find(id);if(!t)return;
+  const sub=subsOf(t).find(x=>x.id===subId);if(!sub||sub.pushed)return;
+  const cat=(document.getElementById('subcat-'+id)||{}).value||'general';
+  pushSubToDaily(t,sub,cat);
+  save();renderTasks();toast('\u2192 Added to Daily');
+}
+function mirrorSubToTask(sub){
+  const mt=(state.daily||[]).find(x=>x.parentSubRef===sub.id);
+  if(mt)mt.done=sub.done;
+}
+function toggleSub(id,subId){
+  const t=find(id);if(!t)return;
+  const sub=subsOf(t).find(x=>x.id===subId);if(!sub)return;
+  sub.done=!sub.done;
+  mirrorSubToTask(sub);
+  save();renderTasks();
+  const st=subStats(t);
+  if(st.total>0&&st.done===st.total)celebrate({toast:'\u2713 All steps done \u2014 tick it off when you\u2019re happy'});
+}
+function deleteSub(id,subId){
+  const t=find(id);if(!t)return;
+  state.daily=(state.daily||[]).filter(x=>x.parentSubRef!==subId);
+  t.subs=subsOf(t).filter(x=>x.id!==subId);
+  save();renderTasks();
+}
+/* Jump from a pushed Daily task back to the task it belongs to */
+function goToParent(parentId){
+  const found=findTaskAnywhere(parentId);
+  if(!found){toast('That task isn\u2019t around any more');return;}
+  found.task._subsOpen=true;save();
+  switchTab(found.tab);
+  setTimeout(function(){
+    const el=document.querySelector('[data-task="'+parentId+'"]');
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  },80);
+}
+function catOptionsHtml(){
+  return CATS.map(function(c){
+    return '<option value="'+c.key+'"'+(c.key==='general'?' selected':'')+'>'+c.icon+' '+esc(c.name.replace(' To-Dos',''))+'</option>';
+  }).join('');
+}
+function buildSubsPanel(t){
+  const subs=subsOf(t);const st=subStats(t);
+  const pct=st.total?Math.round(st.done/st.total*100):0;
+  let h='<div class="subs-panel'+(t._subsOpen?' show':'')+'">'+
+    '<div class="subs-head">Steps '+st.done+'/'+st.total+'<span class="subs-bar"><span class="subs-bar-fill" style="width:'+pct+'%"></span></span></div>';
+  if(!subs.length)h+='<div class="subs-empty">Nothing here yet. List what actually has to happen for this to be finished.</div>';
+  subs.forEach(function(sub){
+    h+='<div class="sub-row">'+
+      '<div class="sub-check'+(sub.done?' done':'')+'" onclick="toggleSub(\''+t.id+'\',\''+sub.id+'\')"></div>'+
+      '<div class="sub-text'+(sub.done?' done':'')+'">'+esc(sub.text)+'</div>'+
+      (sub.pushed?'<span class="sub-pushed">\u2193 In Daily</span>':
+        '<button class="sub-btn" title="Add this to my Daily list" onclick="sendSubToDaily(\''+t.id+'\',\''+sub.id+'\')">\u2193</button>')+
+      '<button class="sub-btn" title="Delete this step" onclick="deleteSub(\''+t.id+'\',\''+sub.id+'\')">\ud83d\uddd1\ufe0f</button>'+
+    '</div>';
+  });
+  if(st.total>0&&st.done===st.total&&!t.done)h+='<div class="subs-alldone">\u2713 Every step done. Tick the task off when you\u2019re happy with it.</div>';
+  h+='<div class="subs-add"><input type="text" id="subin-'+t.id+'" placeholder="What has to happen?" onkeydown="if(event.key===\'Enter\')addSub(\''+t.id+'\')"><button onclick="addSub(\''+t.id+'\')">+ Add</button></div>'+
+    '<div class="subs-opts"><label class="subs-daily"><input type="checkbox" id="subdaily-'+t.id+'"> Also add to my Daily list</label>'+
+    '<select class="subs-cat" id="subcat-'+t.id+'">'+catOptionsHtml()+'</select></div>';
+  h+='</div>';
+  return h;
+}
+
 function toggleRecurring(id){const t=find(id);if(!t)return;t.recurring=!t.recurring;save();renderTasks();toast(t.recurring?'🔁 Recurring on':'Recurring off');}
 function renderTasks(){
   const tasks=state[currentTab];const view=document.getElementById('view-'+currentTab);view.innerHTML='';
@@ -1129,6 +1294,7 @@ function clearDone(){
   const tab=currentTab;
   // recurring done tasks reset (uncheck, keep); other done tasks get removed.
   state[tab].forEach(t=>{if(t.done&&t.recurring){t.done=false;t.rolled=false;}});
+  state[tab].filter(t=>t.done&&!t.recurring).forEach(releaseSub);
   state[tab]=state[tab].filter(t=>!(t.done&&!t.recurring));
   save();renderTasks();toast('🧹 Cleared done');
 }
@@ -1301,6 +1467,15 @@ function labelNum(v,kind){
 
 /* EXPORT / DOWNLOAD */
 function exportDoc(){
+  // steps listed under the task they belong to
+  const subsHtml=(t)=>{
+    const sb=Array.isArray(t.subs)?t.subs:[];
+    if(!sb.length)return '';
+    return '<ul>'+sb.map(function(x){
+      return '<li class="'+(x.done?'done':'')+'">'+(x.done?'\u2713 ':'\u2610 ')+E(x.text)+'</li>';
+    }).join('')+'</ul>';
+  };
+
   const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   const E=esc;
   const who=state.owner?state.owner+'\u2019s':'Your';
@@ -1352,7 +1527,7 @@ function exportDoc(){
       if(!group.length)return;
       any=true;
       h+='<h3>'+E(cat.name)+'</h3><ul>'+group.map(function(t){
-        return '<li class="'+(t.done?'done':'')+'">'+(t.done?'\u2713 ':'\u2610 ')+E(t.text)+(t.due?' (due '+E(t.due)+')':'')+'</li>';
+        return '<li class="'+(t.done?'done':'')+'">'+(t.done?'\u2713 ':'\u2610 ')+E(t.text)+(t.due?' (due '+E(t.due)+')':'')+subsHtml(t)+'</li>';
       }).join('')+'</ul>';
     });
     if(!any)h+='<p class="sub">Nothing on this list.</p>';
