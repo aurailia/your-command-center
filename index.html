@@ -528,6 +528,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .subs-cat{border:1px solid var(--p200);border-radius:100px;padding:5px 10px;font-family:'Lato',sans-serif;font-size:12px;
   color:var(--ink2);background:var(--surf);outline:none;cursor:pointer;}
 .subs-empty{font-family:'Lato',sans-serif;font-size:12.5px;color:var(--muted);font-style:italic;padding:2px 0 4px;}
+.subs-list{max-height:290px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.subs-list::-webkit-scrollbar{width:6px;}
+.subs-list::-webkit-scrollbar-thumb{background:var(--p200);border-radius:100px;}
 .subs-alldone{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:var(--green);padding:8px 0 2px;}
 </style>
 </head>
@@ -744,6 +747,7 @@ function migrate(s){
       if(t.cat==='skool')t.cat='content';
       if(t.recurring===undefined)t.recurring=false;
       if(!Array.isArray(t.subs))t.subs=[];
+      t._subsOpen=false;   // steps start closed on every fresh open
       t.subs.forEach(sb=>{if(sb.done===undefined)sb.done=false;if(sb.pushed===undefined)sb.pushed=false;});
     });
   });
@@ -1141,7 +1145,7 @@ function buildTaskEl(t){
         ${t.rolled?'<span class="chip chip-roll">↪ Carried over</span>':''}
         <span class="chip-due-wrap"><span class="chip chip-due ${di?di.cls:'chip-add-due'}" onclick="openDue('${t.id}')">📅 ${di?di.label:'Add date'}</span><input type="date" id="due-${t.id}" class="chip-due-input" value="${t.due||''}" onchange="setDue('${t.id}',this.value)"></span>
         ${t.note?'<span class="chip" style="background:var(--surf2);color:var(--muted);">📝 Note</span>':''}
-        <button class="chip chip-subs ${st.total&&st.done===st.total?'all-done':''}" title="Break this into steps" onclick="toggleSubs('${t.id}')">☷ ${st.total?st.done+'/'+st.total+' steps':'Steps'}</button>
+        <button class="chip chip-subs ${st.total&&st.done===st.total?'all-done':''}" title="Break this into steps" onclick="toggleSubs('${t.id}')">☷ ${st.total?st.done+'/'+st.total+' steps':'Steps'} ${t._subsOpen?'▾':'▸'}</button>
         ${t.parentText?`<button class="chip chip-parent" title="Go to the task this belongs to" onclick="goToParent('${t.parentRef}')">↳ ${esc(t.parentText)}</button>`:''}</div>
       ${t.note?`<div class="task-note show">${esc(t.note)}</div>`:''}
       <textarea class="note-edit" data-id="${t.id}" rows="2" placeholder="Add a note..."></textarea>
@@ -1166,9 +1170,25 @@ function subStats(t){
   const s=subsOf(t);
   return {total:s.length,done:s.filter(x=>x.done).length};
 }
+/* Accordion. Only one task shows its steps at a time, so a long list never
+   pushes everything else off the screen. */
+function closeAllSubs(except){
+  TASK_TABS.forEach(function(tab){
+    (state[tab]||[]).forEach(function(x){if(x.id!==except)x._subsOpen=false;});
+  });
+}
 function toggleSubs(id){
   const t=find(id);if(!t)return;
-  t._subsOpen=!t._subsOpen;save();renderTasks();
+  const wasOpen=t._subsOpen;
+  closeAllSubs(id);
+  t._subsOpen=!wasOpen;
+  save();renderTasks();
+  if(t._subsOpen){
+    setTimeout(function(){
+      const el=document.querySelector('[data-task="'+id+'"]');
+      if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },60);
+  }
 }
 function addSub(id){
   const t=find(id);if(!t)return;
@@ -1182,7 +1202,7 @@ function addSub(id){
     const cat=(document.getElementById('subcat-'+id)||{}).value||'general';
     pushSubToDaily(t,sub,cat);
   }
-  t._subsOpen=true;save();renderTasks();
+  closeAllSubs(t.id);t._subsOpen=true;save();renderTasks();
 }
 function pushSubToDaily(parent,sub,cat){
   state.daily=state.daily||[];
@@ -1221,7 +1241,7 @@ function deleteSub(id,subId){
 function goToParent(parentId){
   const found=findTaskAnywhere(parentId);
   if(!found){toast('That task isn\u2019t around any more');return;}
-  found.task._subsOpen=true;save();
+  closeAllSubs(found.task.id);found.task._subsOpen=true;save();
   switchTab(found.tab);
   setTimeout(function(){
     const el=document.querySelector('[data-task="'+parentId+'"]');
@@ -1239,6 +1259,7 @@ function buildSubsPanel(t){
   let h='<div class="subs-panel'+(t._subsOpen?' show':'')+'">'+
     '<div class="subs-head">Steps '+st.done+'/'+st.total+'<span class="subs-bar"><span class="subs-bar-fill" style="width:'+pct+'%"></span></span></div>';
   if(!subs.length)h+='<div class="subs-empty">Nothing here yet. List what actually has to happen for this to be finished.</div>';
+  h+='<div class="subs-list">';
   subs.forEach(function(sub){
     h+='<div class="sub-row">'+
       '<div class="sub-check'+(sub.done?' done':'')+'" onclick="toggleSub(\''+t.id+'\',\''+sub.id+'\')"></div>'+
@@ -1248,6 +1269,7 @@ function buildSubsPanel(t){
       '<button class="sub-btn" title="Delete this step" onclick="deleteSub(\''+t.id+'\',\''+sub.id+'\')">\ud83d\uddd1\ufe0f</button>'+
     '</div>';
   });
+  h+='</div>';
   if(st.total>0&&st.done===st.total&&!t.done)h+='<div class="subs-alldone">\u2713 Every step done. Tick the task off when you\u2019re happy with it.</div>';
   h+='<div class="subs-add"><input type="text" id="subin-'+t.id+'" placeholder="What has to happen?" onkeydown="if(event.key===\'Enter\')addSub(\''+t.id+'\')"><button onclick="addSub(\''+t.id+'\')">+ Add</button></div>'+
     '<div class="subs-opts"><label class="subs-daily"><input type="checkbox" id="subdaily-'+t.id+'"> Also add to my Daily list</label>'+
