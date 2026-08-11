@@ -448,15 +448,29 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .main{flex:1;min-width:0;}
 .section{display:none;}
 .section.active{display:block;}
+/* the bar only exists on small screens */
+.mobile-bar{display:none;}
+.mobile-toggle{width:100%;display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--p200);
+  box-shadow:var(--shadow);border-radius:100px;padding:13px 19px;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink);transition:all .15s;}
+.mobile-toggle:hover{border-color:var(--pk200);}
+.mobile-burger{font-size:15px;line-height:1;color:var(--p600);}
+.mobile-current{letter-spacing:.2px;}
+.mobile-count{background:var(--p50);color:var(--p600);border-radius:100px;padding:2px 9px;font-size:10px;font-weight:800;}
+.mobile-caret{margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s;}
+.mobile-bar.open .mobile-caret{transform:rotate(180deg);}
 @media(max-width:900px){
-  .shell{flex-direction:column;gap:14px;}
-  .sidenav{position:sticky;top:0;z-index:60;flex:none;width:100%;flex-direction:row;align-items:center;
-    gap:6px;padding:8px;border-radius:100px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .nav-group{display:none;}
-  .nav-subs{flex-direction:row;gap:6px;margin:0;}
-  .nav-sub{width:auto;white-space:nowrap;padding:8px 13px;font-size:10.5px;background:var(--surf2);}
-  .nav-item{width:auto;white-space:nowrap;padding:9px 15px;font-size:11.5px;}
+  .shell{flex-direction:column;gap:12px;}
+  .mobile-bar{display:block;position:sticky;top:0;z-index:70;}
+  .sidenav{display:none;position:static;top:auto;flex:none;width:100%;flex-direction:column;
+    gap:3px;padding:10px 8px;border-radius:var(--radius);animation:menuDrop .16s ease-out;}
+  .sidenav.open{display:flex;}
+  .nav-group{display:block;}
+  .nav-item{width:100%;white-space:normal;padding:12px 15px;font-size:13px;}
+  .nav-subs{flex-direction:column;gap:1px;margin:1px 0 4px;}
+  .nav-sub{width:100%;padding:9px 15px 9px 36px;font-size:12px;background:none;}
 }
+@keyframes menuDrop{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
 
 /* wider layout: give the trackers room to breathe */
 .sidenav{flex:0 0 212px;}
@@ -502,6 +516,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="shell">
+
+    <div class="mobile-bar" id="mobileBar">
+      <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Open menu">
+        <span class="mobile-burger">☰</span>
+        <span class="mobile-current" id="mobileCurrent">Progress</span>
+        <span class="mobile-caret">▼</span>
+      </button>
+    </div>
 
     <nav class="sidenav">
       <div class="nav-group">Numbers</div>
@@ -1510,6 +1532,24 @@ function celebrate(opts){
 }
 
 
+/* On a phone the menu folds behind the bar at the top. Picking something closes it. */
+const SECTION_LABELS={trackers:'\ud83d\udcca Trackers',progress:'\ud83c\udf1e Progress',clients:'\ud83d\udc9c Clients'};
+function toggleMenu(){
+  const nav=document.querySelector('.sidenav');const bar=document.getElementById('mobileBar');
+  if(!nav)return;
+  const open=nav.classList.toggle('open');
+  if(bar)bar.classList.toggle('open',open);
+}
+function closeMenu(){
+  const nav=document.querySelector('.sidenav');const bar=document.getElementById('mobileBar');
+  if(nav)nav.classList.remove('open');
+  if(bar)bar.classList.remove('open');
+}
+function setMenuLabel(name){
+  const el=document.getElementById('mobileCurrent');
+  if(el)el.textContent=SECTION_LABELS[name]||'Menu';
+}
+
 /* LEFT MENU — trackers on one screen, your day on the other, so nothing needs scrolling past */
 function showSection(name){
   if(name!=='trackers'&&name!=='progress')name='progress';
@@ -1519,10 +1559,12 @@ function showSection(name){
   document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.sec===name);});
   const subs=document.getElementById('navSubs');
   if(subs)subs.style.display=(name==='trackers')?'':'none';
+  setMenuLabel(name);closeMenu();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function jumpTo(id){
   showSection('trackers');
+  closeMenu();
   setTimeout(function(){
     const el=document.getElementById(id);
     if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
