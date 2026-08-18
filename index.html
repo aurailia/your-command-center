@@ -584,7 +584,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         <button class="nav-sub" onclick="jumpTo('skoolToggle')">Skool Tracker</button>
       </div>
       <div class="nav-group">Your day</div>
-      <button class="nav-item" data-sec="progress" onclick="showSection('progress')"><span class="nav-emoji">🌞</span> Progress <span class="nav-count" id="navOpen">0</span></button>
+      <button class="nav-item" data-sec="progress" onclick="showSection('progress')"><span class="nav-emoji">🌞</span> To-Do List <span class="nav-count" id="navOpen">0</span></button>
     </nav>
 
     <div class="main">
@@ -1679,7 +1679,10 @@ function restoreFromFile(ev){
       const raw=extractBackup(String(reader.result));
       if(!raw)throw new Error('no backup found');
       data=JSON.parse(raw);
-      if(!data||!data.daily||!data.goals||!data.stats)throw new Error('not a valid tracker backup');
+      if(!data||!data.daily||!data.goals)throw new Error('not a valid tracker backup');
+      // very early backups called the trackers "stats". Accept those too.
+      if(!data.metrics&&Array.isArray(data.stats)){data.metrics=data.stats;delete data.stats;}
+      if(!Array.isArray(data.metrics))throw new Error('not a valid tracker backup');
     }catch(e){
       ev.target.value='';
       toast('⚠ Couldn\u2019t read that file');
@@ -1695,9 +1698,11 @@ function restoreFromFile(ev){
   reader.readAsText(file);
 }
 let _pendingRestore=null;
-function showRestoreConfirm(data,nStats,nTasks){
+function showRestoreConfirm(data,nA,nTasks){
   _pendingRestore=data;
-  setBackupHint('Restore this backup? '+nStats+' stat'+(nStats===1?'':'s')+', '+nTasks+' task'+(nTasks===1?'':'s')+'. This replaces what\u2019s here now.','confirm');
+  const nT=((data.metrics||[]).length)+((data.skool||[]).length);
+  const nC=(data.clients||[]).length;
+  setBackupHint('Restore this backup? '+nT+' tracker'+(nT===1?'':'s')+', '+nTasks+' task'+(nTasks===1?'':'s')+(nC?', '+nC+' client'+(nC===1?'':'s'):'')+'. This replaces what\u2019s here now.','confirm');
 }
 function doRestore(){
   if(!_pendingRestore)return;
@@ -1796,7 +1801,7 @@ function celebrate(opts){
 
 
 /* On a phone the menu folds behind the bar at the top. Picking something closes it. */
-const SECTION_LABELS={trackers:'\ud83d\udcca Trackers',progress:'\ud83c\udf1e Progress',clients:'\ud83d\udc9c Clients'};
+const SECTION_LABELS={trackers:'\ud83d\udcca Trackers',progress:'\ud83c\udf1e To-Do List',clients:'\ud83d\udc9c Clients'};
 function toggleMenu(){
   const nav=document.querySelector('.sidenav');const bar=document.getElementById('mobileBar');
   if(!nav)return;
